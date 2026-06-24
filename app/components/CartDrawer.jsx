@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCart } from "../context/CartContext";
 
 // Small thumbnail graphic renderers for custom graphics in cart
-const CustomThumb = ({ item }: { item: any }) => {
+const CustomThumb = ({ item }) => {
   if (item.isSticker) {
     return (
       <div className="w-full h-full bg-zinc-950 flex items-center justify-center p-2 rounded-lg">
@@ -123,15 +123,15 @@ const CustomThumb = ({ item }: { item: any }) => {
 
 export default function CartDrawer() {
   const { isCartOpen, closeCart, cart, updateQuantity, removeFromCart, cartTotal } = useCart();
-  const drawerRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef(null);
 
   // Close drawer on clicking outside the drawer pane
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e) => {
       if (
         isCartOpen &&
         drawerRef.current &&
-        !drawerRef.current.contains(e.target as Node)
+        !drawerRef.current.contains(e.target)
       ) {
         closeCart();
       }

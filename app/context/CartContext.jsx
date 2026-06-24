@@ -2,43 +2,10 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 
-export interface CartItem {
-  id: string;
-  name: string;
-  price: string;
-  priceNumeric: number;
-  quantity: number;
-  image?: string;
-  isSticker?: boolean;
-  isPrismTshirt?: boolean;
-  isCowboyHat?: boolean;
-  isKeyboard?: boolean;
-  isShoes?: boolean;
-  isRainbowSticker?: boolean;
-  isCap?: boolean;
-  isDogSweater?: boolean;
-  isBomberJacket?: boolean;
-  isPacifier?: boolean;
-  selectedSize?: string;
-}
+const CartContext = createContext(undefined);
 
-interface CartContextType {
-  cart: CartItem[];
-  isCartOpen: boolean;
-  addToCart: (product: any, size?: string) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  openCart: () => void;
-  closeCart: () => void;
-  clearCart: () => void;
-  cartCount: number;
-  cartTotal: number;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>([]);
+export function CartProvider({ children }) {
+  const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Load cart from localStorage on mount
@@ -54,12 +21,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Save cart to localStorage when it changes
-  const saveCart = (newCart: CartItem[]) => {
+  const saveCart = (newCart) => {
     setCart(newCart);
     localStorage.setItem("acme-cart", JSON.stringify(newCart));
   };
 
-  const addToCart = (product: any, size?: string) => {
+  const addToCart = (product, size) => {
     const existingIndex = cart.findIndex((item) => item.id === product.id);
     let newCart = [...cart];
 
@@ -92,12 +59,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsCartOpen(true); // Automatically slide open the cart drawer!
   };
 
-  const removeFromCart = (productId: string) => {
+  const removeFromCart = (productId) => {
     const newCart = cart.filter((item) => item.id !== productId);
     saveCart(newCart);
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (productId, quantity) => {
     if (quantity <= 0) {
       removeFromCart(productId);
       return;

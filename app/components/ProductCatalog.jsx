@@ -5,28 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
 
-// Define TypeScript interfaces for our product data
-interface Product {
-  id: string;
-  name: string;
-  price: string;
-  priceNumeric: number;
-  category: string;
-  image?: string;
-  isSticker?: boolean; // Card 1 (CSS/SVG logo)
-  isPrismTshirt?: boolean; // Card 4 (Acme Prism T-Shirt)
-  isCowboyHat?: boolean; // Card 5 (Acme Cowboy Hat)
-  isKeyboard?: boolean; // Card 6 (Acme Keyboard perspective)
-  isShoes?: boolean; // Card 9 (Acme Slip-On Shoes)
-  isRainbowSticker?: boolean; // Card 10 (Acme Rainbow Sticker)
-  isCap?: boolean; // Card 11 (Acme Cap)
-  isDogSweater?: boolean; // Card 12 (Acme Doq Sweater)
-  isBomberJacket?: boolean; // Card 14 (Acme Bomber Jacket)
-  isPacifier?: boolean; // Card 18 (Acme Pacifier)
-  isNew?: boolean;
-  isTrending?: boolean;
-}
-
 // Export custom graphics so they can be used in product details page and cart
 export const PrismTshirtGraphic = () => (
   <div className="w-3/5 max-w-[220px] aspect-square flex items-center justify-center relative group-hover:scale-105 transition-transform duration-300">
@@ -480,7 +458,7 @@ const PacifierGraphic = () => (
 );
 
 // Export PRODUCTS so other pages can load them
-export const PRODUCTS: Product[] = [
+export const PRODUCTS = [
   {
     id: "sticker-1",
     name: "Acme Sticker",
@@ -687,11 +665,7 @@ const SORT_OPTIONS = [
   { id: "price-desc", label: "Price: High to low" },
 ];
 
-interface ProductCatalogProps {
-  defaultCategory: string;
-}
-
-export default function ProductCatalog({ defaultCategory }: ProductCatalogProps) {
+export default function ProductCatalog({ defaultCategory }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -718,7 +692,7 @@ export default function ProductCatalog({ defaultCategory }: ProductCatalogProps)
   }, [searchParams]);
 
   // Helper function to build collection/sort URLs
-  const createQueryUrl = (category: string, sort: string | null, q: string | null) => {
+  const createQueryUrl = (category, sort, q) => {
     const params = new URLSearchParams();
     
     if (category && category !== "all") {

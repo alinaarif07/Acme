@@ -11,7 +11,7 @@ export default function Navbar() {
   const router = useRouter();
   const { openCart, cartCount } = useCart();
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);

@@ -15,16 +15,7 @@ import {
 /* ────────────────────────────────────────────────────────────
    Per-product extra data (colours, description, gallery count)
    ──────────────────────────────────────────────────────────── */
-const PRODUCT_EXTRAS: Record<
-  string,
-  {
-    colors: string[];
-    unavailableColors: string[];
-    description: string;
-    hasSizes: boolean;
-    unavailableSizes: string[];
-  }
-> = {
+const PRODUCT_EXTRAS = {
   "tshirt-circles": {
     colors: ["Black", "White", "Blue"],
     unavailableColors: [],
@@ -173,13 +164,13 @@ const PRODUCT_EXTRAS: Record<
 
 const DEFAULT_EXTRAS = {
   colors: ["Black"],
-  unavailableColors: [] as string[],
+  unavailableColors: [],
   description: "Premium Acme product — designed with purpose, built to last.",
   hasSizes: false,
-  unavailableSizes: [] as string[],
+  unavailableSizes: [],
 };
 
-const getColorFilter = (color: string) => {
+const getColorFilter = (color) => {
   const c = color.toLowerCase();
   if (c === "black") return "";
   if (c === "white") return "invert(0.9) brightness(1.2)";
@@ -200,13 +191,7 @@ const getColorFilter = (color: string) => {
 /* ────────────────────────────────────────────────────────────
    Detail graphic renderer (same as before + extra variants)
    ──────────────────────────────────────────────────────────── */
-function DetailGraphic({
-  product,
-  color,
-}: {
-  product: (typeof PRODUCTS)[0];
-  color?: string | null;
-}) {
+function DetailGraphic({ product, color }) {
   const filterStyle = color ? getColorFilter(color) : "";
 
   if (product.isSticker)
@@ -459,13 +444,7 @@ function DetailGraphic({
 /* ────────────────────────────────────────────────────────────
    Small related-product card graphic (mini version)
    ──────────────────────────────────────────────────────────── */
-function MiniGraphic({
-  product,
-  color,
-}: {
-  product: (typeof PRODUCTS)[0];
-  color?: string | null;
-}) {
+function MiniGraphic({ product, color }) {
   if (product.isSticker)
     return (
       <div className="w-full h-full flex items-center justify-center bg-black">
@@ -580,16 +559,12 @@ function MiniGraphic({
    ──────────────────────────────────────────────────────────── */
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 
-export default function ProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default function ProductPage({ params }) {
   const resolvedParams = use(params);
   const { addToCart, openCart } = useCart();
 
   // Helper to convert names to lowercase hyphenated slugs
-  const slugify = (text: string) =>
+  const slugify = (text) =>
     text
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
@@ -602,7 +577,7 @@ export default function ProductPage({
   );
 
   const [selectedSize, setSelectedSize] = useState("M");
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState(null);
   const [activeThumb, setActiveThumb] = useState(0);
   const [addedFeedback, setAddedFeedback] = useState(false);
 
